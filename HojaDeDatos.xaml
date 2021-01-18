@@ -1,0 +1,191 @@
+﻿<Window x:Class="GeoGebra.HojaDeDatos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeoGebra"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="{Binding MyTitle}" 
+        Height="725.208" Width="496.348"
+        Closing="Window_Closing">
+    <Grid>
+        <!--****************************************       MENU      ****************************************-->
+
+        <DockPanel>
+            <Menu Margin="0,0,-4,0" HorizontalAlignment="Left" Width="489" Height="25" VerticalAlignment="Top">
+                <!--<MenuItem Header="_Editar" Width="52" Height="25">
+                    <MenuItem Header="Deshacer" Command="Undo">
+                        <MenuItem.ToolTip>
+                            <ToolTip Content="Deshacer última acción"/>
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+                    <MenuItem Header="Rehacer" Command="Redo">
+                        <MenuItem.ToolTip>
+                            <ToolTip Content="Rehacer última acción"/>
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+                    <MenuItem Header="Limpiar tabla" Command="Delete">
+                        <MenuItem.ToolTip>
+                            <ToolTip Content="Eliminar todos los datos de la tabla."/>
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+                </MenuItem>-->
+                <MenuItem Header="_Guardar datos" Width="52" Height="25" Click="SaveDataOnDM"/>
+                <MenuItem Header="_Ayuda" Width="52" Height="25" Click="OpenHelp"/>
+            </Menu>
+        </DockPanel>
+
+        <!--****************************************      TITULO      ****************************************-->
+
+        <TextBlock TextWrapping="Wrap" Text="Generar Puntos" Margin="265,105,0,557" TextAlignment="Center" FontSize="18"/>
+
+        <!--****************************************      TEXTO       ****************************************-->
+
+        <TextBlock TextWrapping="Wrap" Text="Expresión matemática" Margin="281,293,21,374" TextAlignment="Center" FontSize="14"/>
+        <TextBlock TextWrapping="Wrap" Text="Número de puntos" Margin="281,242,116,416"/>
+        <TextBlock TextWrapping="Wrap" Text="Valor Máximo" Margin="279,198,118,475"/>
+        <TextBlock TextWrapping="Wrap" Text="Valor Mínimo" Margin="279,159,118,513" RenderTransformOrigin="0.486,1.205"/>
+
+        <!--****************************************      BOTÓN       ****************************************-->
+
+        <Button Content="Generar" Margin="281,357,21,312" Click="GeneratePoints"/>
+        <TextBox Name="Test" TextWrapping="Wrap" Text="" Margin="281,395,21,56" IsReadOnly="True"/>
+
+        <!--**************************************** CUADROS DE TEXTO ****************************************-->
+
+        <TextBox Name="min" Margin="377,158,21,513" TextWrapping="Wrap" MaxLines="1">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="-10" Foreground="Gray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Name="max" Margin="377,197,21,475" TextWrapping="Wrap" MaxLines="1">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="10" Foreground="Gray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Name="n" Margin="377,242,21,429" TextWrapping="Wrap" MaxLines="1">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="21" Foreground="Gray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Name="Pol_text" Margin="281,322,21,344" TextWrapping="Wrap" MaxLines="1">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="x^2+3x+2" Foreground="Gray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <!--****************************************     DATAGRID     ****************************************-->
+
+        <DataGrid Name="Datagrid" AreRowDetailsFrozen="True" FrozenColumnCount="2"
+                  SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay}" MinColumnWidth="21" Margin="15,48,225,0"
+                  IsManipulationEnabled="True" AllowDrop="True" IsTextSearchEnabled="True" CanUserDeleteRows="True"
+                  IsReadOnly="False" CanUserAddRows="True" AutoGenerateColumns="False" AutomationProperties.IsOffscreenBehavior="Offscreen"
+                  SelectedCellsChanged="Datagrid_SelectedCellsChanged" MouseUp="OnDataGridMouseUp" IsTabStop="True" 
+                  Height="564" VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn CanUserSort="false" Width="*" Header="" Binding="{Binding check}"/>
+                <DataGridTextColumn  CanUserSort="false" Width="*" Header="X__Value" Binding="{Binding x}">
+                </DataGridTextColumn>
+                <DataGridTextColumn  CanUserSort="false" Width="*" Header="Y__Value" Binding="{Binding y}"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="_Añadir fila" Click="AddNewRow"/>
+                    <MenuItem Header="_Añadir fila al final" Click="AddNewRowAtEnd"/>
+                    <Separator></Separator>
+                    <MenuItem Header="_Limpiar tabla" Click="CleanTable"/>
+                    <MenuItem Header="_Eliminar última fila" Click="DeleteLastRow"/>
+                    <MenuItem Header="_Eliminar elementos seleccionados" Click="DeleteSelectedRows"/>
+                    <MenuItem Header="Seleccionar todo" Command="SelectAll" Click="SelectAllValues"/>
+                    <Separator></Separator>
+                    <MenuItem Header="Ordenar puntos por orden de creación" Click="OrderByCreation"/>
+                    <MenuItem Header="Ordenar puntos por X" Click="OrderByXValues"/>
+                    <MenuItem Header="Ordenar puntos por Y" Click="OrderByYValues"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <Button Content="Limpiar Consola" Height="30" VerticalAlignment="Top" Margin="281,645,21,0" Click="CleanConsole"/>
+        <Button Content="Representar gráficamente" Height="30" VerticalAlignment="Top" Margin="15,645,225,0" Click="Represent"/>
+        <TextBox Name="n_of_points" Height="23" Margin="15,617,225,0" TextWrapping="Wrap" Text="{Binding n_of_points}" VerticalAlignment="Top" IsReadOnly="True"/>
+
+        <!--**************************************** PANEL DE CONTROL ****************************************-->
+
+    </Grid>
+</Window>
